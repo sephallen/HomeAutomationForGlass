@@ -74,7 +74,7 @@ public class MenuActivity extends Activity {
             // Handle item selection.
             switch (item.getItemId()) {
                 case R.id.action_stop:
-                    stopService(new Intent(this, LiveCardService.class));
+                    handleStop();
                     return true;
             }
         }
