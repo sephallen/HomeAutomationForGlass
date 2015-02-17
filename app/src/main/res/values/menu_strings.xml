@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_turn_on_light">Turn on the light</string>
-    <string name="action_stop">Exit home automation</string>
+    <string name="action_turn_off_light">Turn off the light</string>
+    <string name="action_stop">Exit application</string>
 </resources>

@@ -13,6 +13,13 @@ import android.widget.Toast;
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 public class MenuActivity extends Activity {
     private boolean mAttachedToWindow;
@@ -73,6 +80,20 @@ public class MenuActivity extends Activity {
         if (isMyMenu(featureId)) {
             // Handle item selection.
             switch (item.getItemId()) {
+                case R.id.action_turn_on_light:
+                    try {
+                        handleTurnOnLight();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                case R.id.action_turn_off_light:
+                    try {
+                        handleTurnOffLight();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
                 case R.id.action_stop:
                     handleStop();
                     return true;
@@ -127,7 +148,18 @@ public class MenuActivity extends Activity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_turn_on_light:
-                handleTurnOnLight();
+                try {
+                    handleTurnOnLight();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.action_turn_off_light:
+                try {
+                    handleTurnOffLight();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.action_stop:
                 handleStop();
@@ -139,12 +171,27 @@ public class MenuActivity extends Activity {
         return handled;
     }
 
-    private void handleTurnOnLight() {
-        Toast.makeText(this, "Turn on light selected", Toast.LENGTH_LONG).show();
+    private void handleTurnOnLight() throws IOException {
+//        Toast.makeText(this, "Turn on light selected", Toast.LENGTH_LONG).show();
+        String retrievedData;
+        try {
+            retrievedData = new RetrieveData().execute("http://192.168.0.17/?lighton").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleTurnOffLight() throws IOException {
+        String retrievedData;
+        try {
+            retrievedData = new RetrieveData().execute("http://192.168.0.17/?lightoff").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleStop() {
-        Toast.makeText(this, "Closing app", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Closing app", Toast.LENGTH_SHORT).show();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
