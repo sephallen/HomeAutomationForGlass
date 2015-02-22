@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
-import com.google.android.glass.app.Card;
 import com.google.android.glass.timeline.LiveCard;
+
+import java.text.SimpleDateFormat;
 
 public class LiveCardService extends Service {
 
@@ -53,6 +54,14 @@ public class LiveCardService extends Service {
                 mLiveCard.navigate();
         }
 
+        displayLiveCardContent();
         return START_STICKY;
+    }
+
+    void displayLiveCardContent() {
+        mLiveCardViews.setTextViewText(R.id.message, "The light is currently off");
+        mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
+
+        mLiveCard.setViews(mLiveCardViews);
     }
 }

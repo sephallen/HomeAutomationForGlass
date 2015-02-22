@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,19 +14,14 @@ import android.widget.Toast;
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 
 public class MenuActivity extends Activity {
     private boolean mAttachedToWindow;
     private boolean mOptionsMenuOpen;
     private boolean mFromLiveCardVoice;
     private boolean mIsFinishing;
+    private final String serverURL = "http://192.168.0.14:3000";
     Handler mHandler = new Handler();
 
     @Override
@@ -175,7 +171,7 @@ public class MenuActivity extends Activity {
 //        Toast.makeText(this, "Turn on light selected", Toast.LENGTH_LONG).show();
         String retrievedData;
         try {
-            retrievedData = new RetrieveData().execute("http://192.168.0.17/?lighton").get();
+            retrievedData = new RetrieveData().execute(serverURL + "/lighton").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,7 +180,7 @@ public class MenuActivity extends Activity {
     private void handleTurnOffLight() throws IOException {
         String retrievedData;
         try {
-            retrievedData = new RetrieveData().execute("http://192.168.0.17/?lightoff").get();
+            retrievedData = new RetrieveData().execute(serverURL + "/lightoff").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
