@@ -174,6 +174,7 @@ public class MenuActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        LiveCardService.refreshLiveCard(this);
     }
 
     private void handleTurnOffLight() throws IOException {

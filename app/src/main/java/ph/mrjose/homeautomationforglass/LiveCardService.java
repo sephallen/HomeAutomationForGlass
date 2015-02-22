@@ -2,6 +2,7 @@ package ph.mrjose.homeautomationforglass;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.widget.RemoteViews;
@@ -15,9 +16,16 @@ public class LiveCardService extends Service {
 
     private static final String LIVE_CARD_TAG = "Home Automation For Glass Status";
     private static final String ACTION_STOP = "Stop";
+    private static final String ACTION_REFRESH = "Refresh";
 
     RemoteViews mLiveCardViews;
     LiveCard mLiveCard;
+
+    public static void refreshLiveCard(Context context) {
+        Intent intent = new Intent(context, LiveCardService.class);
+        intent.setAction(ACTION_REFRESH);
+        context.startService(intent);
+    }
 
     public LiveCardService() {
     }
@@ -52,6 +60,7 @@ public class LiveCardService extends Service {
 //            if(ACTION_STOP == intent.getAction())
 //                stopSelf();
 //            else
+            if (ACTION_REFRESH != intent.getAction())
                 mLiveCard.navigate();
         }
 
@@ -82,7 +91,7 @@ public class LiveCardService extends Service {
             e.printStackTrace();
         }
 
-        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus);
+        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus + "\nNew line test");
         mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
 
         mLiveCard.setViews(mLiveCardViews);
