@@ -8,7 +8,8 @@ import android.widget.RemoteViews;
 
 import com.google.android.glass.timeline.LiveCard;
 
-import java.text.SimpleDateFormat;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LiveCardService extends Service {
 
@@ -58,8 +59,30 @@ public class LiveCardService extends Service {
         return START_STICKY;
     }
 
-    void displayLiveCardContent() {
-        mLiveCardViews.setTextViewText(R.id.message, "The light is currently off");
+    public void displayLiveCardContent() {
+        String retrievedData = null;
+
+        try {
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/json").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONObject serverStatus = null;
+        try {
+            serverStatus = new JSONObject(retrievedData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String lightStatus = null;
+        try {
+            lightStatus = serverStatus.getString("light").toLowerCase();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus);
         mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
 
         mLiveCard.setViews(mLiveCardViews);

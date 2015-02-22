@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +20,7 @@ public class MenuActivity extends Activity {
     private boolean mOptionsMenuOpen;
     private boolean mFromLiveCardVoice;
     private boolean mIsFinishing;
-    private final String serverURL = "http://192.168.0.14:3000";
+
     Handler mHandler = new Handler();
 
     @Override
@@ -171,7 +170,7 @@ public class MenuActivity extends Activity {
 //        Toast.makeText(this, "Turn on light selected", Toast.LENGTH_LONG).show();
         String retrievedData;
         try {
-            retrievedData = new RetrieveData().execute(serverURL + "/lighton").get();
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lighton").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,7 +179,7 @@ public class MenuActivity extends Activity {
     private void handleTurnOffLight() throws IOException {
         String retrievedData;
         try {
-            retrievedData = new RetrieveData().execute(serverURL + "/lightoff").get();
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lightoff").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
