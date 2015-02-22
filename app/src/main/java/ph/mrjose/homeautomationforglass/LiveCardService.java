@@ -60,7 +60,7 @@ public class LiveCardService extends Service {
 //            if(ACTION_STOP == intent.getAction())
 //                stopSelf();
 //            else
-            if (ACTION_REFRESH != intent.getAction())
+            if (!ACTION_REFRESH.equals(intent.getAction()))
                 mLiveCard.navigate();
         }
 
@@ -86,12 +86,15 @@ public class LiveCardService extends Service {
 
         String lightStatus = null;
         try {
-            lightStatus = serverStatus.getString("light").toLowerCase();
+            if (serverStatus != null) {
+                lightStatus = serverStatus.getString("light").toLowerCase();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus + "\nNew line test");
+        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus);
+//        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus + "\nNew line test");
         mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
 
         mLiveCard.setViews(mLiveCardViews);

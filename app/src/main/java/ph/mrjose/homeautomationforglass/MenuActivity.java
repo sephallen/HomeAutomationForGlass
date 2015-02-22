@@ -102,6 +102,7 @@ public class MenuActivity extends Activity {
         super.onPanelClosed(featureId, menu);
         if (isMyMenu(featureId)) {
             mIsFinishing = true;
+            LiveCardService.refreshLiveCard(this);
             finish();
         }
     }
@@ -121,6 +122,7 @@ public class MenuActivity extends Activity {
     public void onOptionsMenuClosed(Menu menu) {
         super.onOptionsMenuClosed(menu);
         mOptionsMenuOpen = false;
+        LiveCardService.refreshLiveCard(this);
         finish();
     }
 
@@ -184,6 +186,7 @@ public class MenuActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        LiveCardService.refreshLiveCard(this);
     }
 
     private void handleStop() {
