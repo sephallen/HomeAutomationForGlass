@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="action_unlock_door">Unlock the door</string>
+    <string name="action_lock_door">Lock the door</string>
     <string name="action_turn_on_light">Turn on the light</string>
     <string name="action_turn_off_light">Turn off the light</string>
     <string name="action_stop">Exit application</string>

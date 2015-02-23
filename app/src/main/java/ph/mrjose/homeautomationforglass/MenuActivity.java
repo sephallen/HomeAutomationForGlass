@@ -75,6 +75,20 @@ public class MenuActivity extends Activity {
         if (isMyMenu(featureId)) {
             // Handle item selection.
             switch (item.getItemId()) {
+                case R.id.action_unlock_door:
+                    try {
+                        handleUnlockDoor();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                case R.id.action_lock_door:
+                    try {
+                        handleLockDoor();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
                 case R.id.action_turn_on_light:
                     try {
                         handleTurnOnLight();
@@ -144,6 +158,20 @@ public class MenuActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         switch (id) {
+            case R.id.action_unlock_door:
+                try {
+                    handleUnlockDoor();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.action_lock_door:
+                try {
+                    handleLockDoor();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case R.id.action_turn_on_light:
                 try {
                     handleTurnOnLight();
@@ -166,6 +194,26 @@ public class MenuActivity extends Activity {
         }
 
         return handled;
+    }
+
+    private void handleUnlockDoor() throws IOException {
+        String retrievedData;
+        try {
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/unlock").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LiveCardService.refreshLiveCard(this);
+    }
+
+    private void handleLockDoor() throws IOException {
+        String retrievedData;
+        try {
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lock").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LiveCardService.refreshLiveCard(this);
     }
 
     private void handleTurnOnLight() throws IOException {
