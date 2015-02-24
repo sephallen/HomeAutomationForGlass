@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
@@ -17,6 +18,7 @@ public class LiveCardService extends Service {
     private static final String LIVE_CARD_TAG = "Home Automation For Glass Status";
     private static final String ACTION_STOP = "Stop";
     private static final String ACTION_REFRESH = "Refresh";
+    Handler mHandler = new Handler();
 
     RemoteViews mLiveCardViews;
     LiveCard mLiveCard;
@@ -28,6 +30,27 @@ public class LiveCardService extends Service {
     }
 
     public LiveCardService() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                while (true) {
+                    try {
+                        Thread.sleep(5000);
+                        mHandler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                displayLiveCardContent();
+                            }
+                        });
+                    } catch (Exception e) {
+                        // TODO: handle exception
+                    }
+                }
+            }
+        }).start();
     }
 
     @Override
