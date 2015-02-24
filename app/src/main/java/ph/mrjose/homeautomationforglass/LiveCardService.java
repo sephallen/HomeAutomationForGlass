@@ -18,7 +18,10 @@ public class LiveCardService extends Service {
     private static final String LIVE_CARD_TAG = "Home Automation For Glass Status";
     private static final String ACTION_STOP = "Stop";
     private static final String ACTION_REFRESH = "Refresh";
+
     Handler mHandler = new Handler();
+    private final UpdateLiveCardRunnable mUpdateLiveCardRunnable = new UpdateLiveCardRunnable();
+    private static final long DELAY_MILLIS = 5000;
 
     RemoteViews mLiveCardViews;
     LiveCard mLiveCard;
@@ -30,46 +33,31 @@ public class LiveCardService extends Service {
     }
 
     public LiveCardService() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                while (true) {
-                    try {
-                        Thread.sleep(5000);
-                        mHandler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // TODO Auto-generated method stub
-                                displayLiveCardContent();
-                            }
-                        });
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                    }
-                }
-            }
-        }).start();
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+//        TODO: Return the communication channel to the service.
+//        throw new UnsupportedOperationException("Not yet implemented");
+        return null;
     }
 
     @Override
     public void onDestroy() {
-        if(mLiveCard != null)
+        if (mLiveCard != null && mLiveCard.isPublished()) {
+            //Stop the handler from queuing more Runnable jobs
+            mUpdateLiveCardRunnable.setStop(true);
+
             mLiveCard.unpublish();
+            mLiveCard = null;
+        }
         super.onDestroy();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if(mLiveCard == null) {
+        if (mLiveCard == null) {
             mLiveCardViews = new RemoteViews(getPackageName(), R.layout.status_live_card_layout);
             mLiveCard = new LiveCard(this, LIVE_CARD_TAG);
 
@@ -79,6 +67,8 @@ public class LiveCardService extends Service {
 
             mLiveCard.setVoiceActionEnabled(true);
             mLiveCard.publish(LiveCard.PublishMode.REVEAL);
+
+            mHandler.post(mUpdateLiveCardRunnable);
         } else {
 //            if(ACTION_STOP == intent.getAction())
 //                stopSelf();
@@ -136,12 +126,35 @@ public class LiveCardService extends Service {
 
         mLiveCardViews.setTextViewText(R.id.message,
                 "Door is currently " + doorStatus +
-                "\nLight is currently " + lightStatus +
-                "\nTemperature is currently " + tempStatus + "°C"
+                        "\nLight is currently " + lightStatus +
+                        "\nTemperature is currently " + tempStatus + "°C"
         );
 //        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus + "\nNew line test");
         mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
 
         mLiveCard.setViews(mLiveCardViews);
+    }
+
+    private class UpdateLiveCardRunnable implements Runnable {
+
+        private boolean mIsStopped = false;
+
+        public void run() {
+
+            if(!isStopped()) {
+
+                displayLiveCardContent();
+
+                mHandler.postDelayed(mUpdateLiveCardRunnable, DELAY_MILLIS);
+            }
+        }
+
+        public boolean isStopped() {
+            return mIsStopped;
+        }
+
+        public void setStop(boolean isStopped) {
+            this.mIsStopped = isStopped;
+        }
     }
 }
