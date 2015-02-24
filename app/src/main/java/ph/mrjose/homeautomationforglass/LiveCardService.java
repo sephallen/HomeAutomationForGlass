@@ -102,9 +102,20 @@ public class LiveCardService extends Service {
             e.printStackTrace();
         }
 
+        String tempStatus = null;
+        try {
+            if (serverStatus != null) {
+                tempStatus = serverStatus.getString("temp");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         mLiveCardViews.setTextViewText(R.id.message,
-                "The door is currently " + doorStatus +
-                "\nThe light is currently " + lightStatus);
+                "Door is currently " + doorStatus +
+                "\nLight is currently " + lightStatus +
+                "\nTemperature is currently " + tempStatus + "°C"
+        );
 //        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus + "\nNew line test");
         mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
 
