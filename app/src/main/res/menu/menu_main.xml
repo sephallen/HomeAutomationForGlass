@@ -20,6 +20,11 @@
         android:icon="@drawable/ic_launcher" />
 
     <item
+        android:id="@+id/action_set_thermostat"
+        android:title="@string/action_set_thermostat"
+        android:icon="@drawable/ic_launcher" />
+
+    <item
         android:id="@+id/action_stop"
         android:title="@string/action_stop"
         android:icon="@drawable/ic_launcher" />
