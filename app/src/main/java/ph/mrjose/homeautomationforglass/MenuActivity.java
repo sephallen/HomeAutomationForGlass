@@ -27,8 +27,6 @@ public class MenuActivity extends Activity {
 
     private static final int SPEECH_REQUEST = 0;
 
-    private static final String LOG_TAG = "JOSEPH_DEBUG";
-
     Handler mHandler = new Handler();
 
     @Override
@@ -270,9 +268,19 @@ public class MenuActivity extends Activity {
             List<String> results = data.getStringArrayListExtra(
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
-            // Do something with spokenText.
-            Log.v(LOG_TAG, spokenText);
+            if (spokenText != null) {
+                spokenText = spokenText.replaceAll("[^0-9]", "");
 
+                if (spokenText != null) {
+                    String retrievedData;
+                    try {
+                        retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/thermostat/" + spokenText).get();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            LiveCardService.refreshLiveCard(this);
             finish();
         }
 //        LiveCardService.refreshLiveCard(this);
