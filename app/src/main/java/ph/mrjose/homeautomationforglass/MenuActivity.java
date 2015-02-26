@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
@@ -32,8 +30,7 @@ public class MenuActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFromLiveCardVoice =
-                getIntent().getBooleanExtra(LiveCard.EXTRA_FROM_LIVECARD_VOICE, false);
+        mFromLiveCardVoice = getIntent().getBooleanExtra(LiveCard.EXTRA_FROM_LIVECARD_VOICE, false);
         if (mFromLiveCardVoice) {
             // When activated by voice from a live card, enable voice commands. The menu
             // will automatically "jump" ahead to the items (skipping the guard phrase
@@ -79,6 +76,7 @@ public class MenuActivity extends Activity {
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (isMyMenu(featureId)) {
+            shouldFinishOnMenuClose = true;
             // Handle item selection.
             switch (item.getItemId()) {
                 case R.id.action_unlock_door:
