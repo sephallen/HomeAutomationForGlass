@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +23,11 @@ public class MenuActivity extends Activity {
     private boolean mOptionsMenuOpen;
     private boolean mFromLiveCardVoice;
     private boolean mIsFinishing;
+    private boolean shouldFinishOnMenuClose;
+
     private static final int SPEECH_REQUEST = 0;
 
+    private static final String LOG_TAG = "JOSEPH_DEBUG";
 
     Handler mHandler = new Handler();
 
@@ -35,7 +39,7 @@ public class MenuActivity extends Activity {
         if (mFromLiveCardVoice) {
             // When activated by voice from a live card, enable voice commands. The menu
             // will automatically "jump" ahead to the items (skipping the guard phrase
-            // that was already said at the live card).
+            // that was already said private boolean shouldFinishOnMenuClose;at the live card).
             getWindow().requestFeature(WindowUtils.FEATURE_VOICE_COMMANDS);
         }
     }
@@ -123,8 +127,10 @@ public class MenuActivity extends Activity {
         super.onPanelClosed(featureId, menu);
         if (isMyMenu(featureId)) {
             mIsFinishing = true;
-            LiveCardService.refreshLiveCard(this);
-            finish();
+            if (shouldFinishOnMenuClose) {
+                LiveCardService.refreshLiveCard(this);
+                finish();
+            }
         }
     }
 
@@ -143,8 +149,10 @@ public class MenuActivity extends Activity {
     public void onOptionsMenuClosed(Menu menu) {
         super.onOptionsMenuClosed(menu);
         mOptionsMenuOpen = false;
-        LiveCardService.refreshLiveCard(this);
-        finish();
+        if (shouldFinishOnMenuClose) {
+            LiveCardService.refreshLiveCard(this);
+            finish();
+        }
     }
 
     @Override
@@ -161,6 +169,7 @@ public class MenuActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
+        shouldFinishOnMenuClose = true;
         boolean handled = true;
         int id = item.getItemId();
 
@@ -249,6 +258,8 @@ public class MenuActivity extends Activity {
     }
 
     private void handleSetThermostat() {
+        shouldFinishOnMenuClose = false;
+
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         startActivityForResult(intent, SPEECH_REQUEST);
     }
@@ -260,9 +271,11 @@ public class MenuActivity extends Activity {
                     RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
             // Do something with spokenText.
-            System.out.println(spokenText);
+            Log.v(LOG_TAG, spokenText);
+
+            finish();
         }
-        LiveCardService.refreshLiveCard(this);
+//        LiveCardService.refreshLiveCard(this);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
