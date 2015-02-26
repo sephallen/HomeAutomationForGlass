@@ -279,9 +279,8 @@ public class MenuActivity extends Activity {
                 }
             }
             LiveCardService.refreshLiveCard(this);
-            finish();
         }
-//        LiveCardService.refreshLiveCard(this);
+        finish();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
