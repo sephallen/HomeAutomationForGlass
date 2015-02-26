@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,12 +15,15 @@ import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MenuActivity extends Activity {
     private boolean mAttachedToWindow;
     private boolean mOptionsMenuOpen;
     private boolean mFromLiveCardVoice;
     private boolean mIsFinishing;
+    private static final int SPEECH_REQUEST = 0;
+
 
     Handler mHandler = new Handler();
 
@@ -102,6 +106,9 @@ public class MenuActivity extends Activity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    return true;
+                case R.id.action_set_thermostat:
+                    handleSetThermostat();
                     return true;
                 case R.id.action_stop:
                     handleStop();
@@ -187,6 +194,9 @@ public class MenuActivity extends Activity {
                     e.printStackTrace();
                 }
                 break;
+            case R.id.action_set_thermostat:
+                handleSetThermostat();
+                break;
             case R.id.action_stop:
                 handleStop();
                 break;
@@ -236,6 +246,24 @@ public class MenuActivity extends Activity {
             e.printStackTrace();
         }
         LiveCardService.refreshLiveCard(this);
+    }
+
+    private void handleSetThermostat() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        startActivityForResult(intent, SPEECH_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SPEECH_REQUEST && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+            String spokenText = results.get(0);
+            // Do something with spokenText.
+            System.out.println(spokenText);
+        }
+        LiveCardService.refreshLiveCard(this);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void handleStop() {
