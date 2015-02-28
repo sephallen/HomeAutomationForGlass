@@ -22,7 +22,7 @@ public class LiveCardService extends Service {
 
     Handler mHandler = new Handler();
     private final UpdateLiveCardRunnable mUpdateLiveCardRunnable = new UpdateLiveCardRunnable();
-    private static final long DELAY_MILLIS = 5000;
+    private static final long DELAY_MILLIS = 10000;
 
     RemoteViews mLiveCardViews;
     LiveCard mLiveCard;
