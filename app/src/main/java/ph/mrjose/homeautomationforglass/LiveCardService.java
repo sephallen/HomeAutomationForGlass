@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.google.android.glass.timeline.LiveCard;
 
@@ -87,7 +88,9 @@ public class LiveCardService extends Service {
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/json").get();
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            Toast.makeText(this, "No server found, closing app", Toast.LENGTH_SHORT).show();
+            onDestroy();
         }
 
         JSONObject serverStatus = null;

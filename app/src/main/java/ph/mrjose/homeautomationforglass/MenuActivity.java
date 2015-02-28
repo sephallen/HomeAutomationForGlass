@@ -257,14 +257,14 @@ public class MenuActivity extends Activity {
         shouldFinishOnMenuClose = false;
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say a number between 0-30");
         startActivityForResult(intent, SPEECH_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SPEECH_REQUEST && resultCode == RESULT_OK) {
-            List<String> results = data.getStringArrayListExtra(
-                    RecognizerIntent.EXTRA_RESULTS);
+            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             String spokenText = results.get(0);
             if (spokenText != null) {
                 spokenText = spokenText.replaceAll("[^0-9]", "");
