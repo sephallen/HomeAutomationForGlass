@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.view.WindowUtils;
@@ -213,43 +214,47 @@ public class MenuActivity extends Activity {
     }
 
     private void handleUnlockDoor() throws IOException {
-        String retrievedData;
+        String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/unlock").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
         LiveCardService.refreshLiveCard(this);
     }
 
     private void handleLockDoor() throws IOException {
-        String retrievedData;
+        String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lock").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
         LiveCardService.refreshLiveCard(this);
     }
 
     private void handleTurnOnLight() throws IOException {
 //        Toast.makeText(this, "Turn on light selected", Toast.LENGTH_LONG).show();
-        String retrievedData;
+        String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lighton").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
         LiveCardService.refreshLiveCard(this);
     }
 
     private void handleTurnOffLight() throws IOException {
-        String retrievedData;
+        String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lightoff").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
         LiveCardService.refreshLiveCard(this);
     }
 
@@ -269,13 +274,16 @@ public class MenuActivity extends Activity {
             if (spokenText != null) {
                 spokenText = spokenText.replaceAll("[^0-9]", "");
 
-                if (spokenText != null) {
-                    String retrievedData;
+                if (spokenText != "") {
+                    String retrievedData = null;
                     try {
                         retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/thermostat/" + spokenText).get();
+                        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Toast.makeText(this, "Not a valid temperature", Toast.LENGTH_LONG).show();
                 }
             }
             LiveCardService.refreshLiveCard(this);
