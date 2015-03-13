@@ -59,6 +59,7 @@ public class MenuActivity extends Activity {
 
     @Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
+        shouldFinishOnMenuClose = true;
         if (isMyMenu(featureId)) {
             getMenuInflater().inflate(R.menu.menu_main, menu);
             return true;
@@ -236,7 +237,6 @@ public class MenuActivity extends Activity {
     }
 
     private void handleTurnOnLight() throws IOException {
-//        Toast.makeText(this, "Turn on light selected", Toast.LENGTH_LONG).show();
         String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lighton").get();
@@ -275,7 +275,7 @@ public class MenuActivity extends Activity {
                 spokenText = spokenText.replaceAll("[^0-9]", "");
 
                 if (spokenText != "") {
-                    String retrievedData = null;
+                    String retrievedData;
                     try {
                         retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/thermostat/" + spokenText).get();
                         Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
@@ -293,7 +293,6 @@ public class MenuActivity extends Activity {
     }
 
     private void handleStop() {
-//        Toast.makeText(this, "Closing app", Toast.LENGTH_SHORT).show();
         mHandler.post(new Runnable() {
             @Override
             public void run() {

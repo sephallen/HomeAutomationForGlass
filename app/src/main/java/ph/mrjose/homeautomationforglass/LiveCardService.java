@@ -39,8 +39,6 @@ public class LiveCardService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-//        TODO: Return the communication channel to the service.
-//        throw new UnsupportedOperationException("Not yet implemented");
         return null;
     }
 
@@ -84,7 +82,7 @@ public class LiveCardService extends Service {
     }
 
     public void displayLiveCardContent() {
-        String retrievedData = null;
+        String retrievedData;
 
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/json").get();
