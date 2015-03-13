@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -87,17 +88,19 @@ public class LiveCardService extends Service {
 
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/json").get();
+            Log.v("json_result", retrievedData);
         } catch (Exception e) {
 //            e.printStackTrace();
-            Toast.makeText(this, "No server found, closing app", Toast.LENGTH_SHORT).show();
-            onDestroy();
+            retrievedData = null;
         }
 
         JSONObject serverStatus = null;
-        try {
-            serverStatus = new JSONObject(retrievedData);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (retrievedData != null) {
+            try {
+                serverStatus = new JSONObject(retrievedData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         String doorStatus = null;
