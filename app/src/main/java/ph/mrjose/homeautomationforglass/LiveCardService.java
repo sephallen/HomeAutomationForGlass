@@ -88,9 +88,8 @@ public class LiveCardService extends Service {
 
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/json").get();
-            Log.v("json_result", retrievedData);
         } catch (Exception e) {
-//            e.printStackTrace();
+            Toast.makeText(this, "Server not found at " + ServerUrl.serverUrl, Toast.LENGTH_LONG).show();
             retrievedData = null;
         }
 
