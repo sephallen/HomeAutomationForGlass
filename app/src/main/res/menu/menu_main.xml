@@ -25,6 +25,16 @@
         android:icon="@drawable/ic_launcher" />
 
     <item
+        android:id="@+id/action_turn_on_kettle"
+        android:title="@string/action_turn_on_kettle"
+        android:icon="@drawable/ic_launcher" />
+
+    <item
+        android:id="@+id/action_turn_off_kettle"
+        android:title="@string/action_turn_off_kettle"
+        android:icon="@drawable/ic_launcher" />
+
+    <item
         android:id="@+id/action_stop"
         android:title="@string/action_stop"
         android:icon="@drawable/ic_launcher" />

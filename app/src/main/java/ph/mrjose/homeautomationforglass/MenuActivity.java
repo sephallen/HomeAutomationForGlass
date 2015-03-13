@@ -112,6 +112,20 @@ public class MenuActivity extends Activity {
                 case R.id.action_set_thermostat:
                     handleSetThermostat();
                     return true;
+                case R.id.action_turn_on_kettle:
+                    try {
+                        handleTurnOnKettle();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                case R.id.action_turn_off_kettle:
+                    try {
+                        handleTurnOffKettle();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
                 case R.id.action_stop:
                     handleStop();
                     return true;
@@ -204,6 +218,20 @@ public class MenuActivity extends Activity {
             case R.id.action_set_thermostat:
                 handleSetThermostat();
                 break;
+            case R.id.action_turn_on_kettle:
+                try {
+                    handleTurnOnKettle();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.action_turn_off_kettle:
+                try {
+                    handleTurnOffKettle();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case R.id.action_stop:
                 handleStop();
                 break;
@@ -290,6 +318,28 @@ public class MenuActivity extends Activity {
         }
         finish();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleTurnOnKettle() throws IOException {
+        String retrievedData = null;
+        try {
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/relayon").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
+        LiveCardService.refreshLiveCard(this);
+    }
+
+    private void handleTurnOffKettle() throws IOException {
+        String retrievedData = null;
+        try {
+            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/relayoff").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
+        LiveCardService.refreshLiveCard(this);
     }
 
     private void handleStop() {

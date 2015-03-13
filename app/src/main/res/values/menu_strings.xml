@@ -4,6 +4,8 @@
     <string name="action_lock_door">Lock the door</string>
     <string name="action_turn_on_light">Turn on the light</string>
     <string name="action_turn_off_light">Turn off the light</string>
+    <string name="action_turn_on_kettle">Turn on the kettle</string>
+    <string name="action_turn_off_kettle">Turn off the kettle</string>
     <string name="action_set_thermostat">Set thermostat to</string>
     <string name="action_stop">Exit application</string>
 </resources>
