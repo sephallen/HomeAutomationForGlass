@@ -4,35 +4,44 @@
     <item
         android:id="@+id/action_unlock_door"
         android:title="@string/action_unlock_door"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
+
     <item
         android:id="@+id/action_lock_door"
         android:title="@string/action_lock_door"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
+
     <item
         android:id="@+id/action_turn_on_light"
         android:title="@string/action_turn_on_light"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
 
     <item
         android:id="@+id/action_turn_off_light"
         android:title="@string/action_turn_off_light"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
 
     <item
         android:id="@+id/action_set_thermostat"
         android:title="@string/action_set_thermostat"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
 
     <item
         android:id="@+id/action_turn_on_kettle"
         android:title="@string/action_turn_on_kettle"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
 
     <item
         android:id="@+id/action_turn_off_kettle"
         android:title="@string/action_turn_off_kettle"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_launcher"
+        android:visible="true" />
 
     <item
         android:id="@+id/action_stop"

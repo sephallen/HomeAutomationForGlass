@@ -23,6 +23,7 @@ public class MenuActivity extends Activity {
     private boolean mFromLiveCardVoice;
     private boolean mIsFinishing;
     private boolean shouldFinishOnMenuClose;
+    private boolean menuLight;
 
     private static final int SPEECH_REQUEST = 0;
 
@@ -59,18 +60,36 @@ public class MenuActivity extends Activity {
 
     @Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
-        shouldFinishOnMenuClose = true;
         if (isMyMenu(featureId)) {
+            shouldFinishOnMenuClose = true;
             getMenuInflater().inflate(R.menu.menu_main, menu);
             return true;
         }
+//        if (featureId == WindowUtils.FEATURE_VOICE_COMMANDS || featureId == Window.FEATURE_OPTIONS_PANEL) {
+//            getMenuInflater().inflate(R.menu.menu_main, menu);
+//            return true;
+//        }
         return super.onCreatePanelMenu(featureId, menu);
     }
 
     @Override
     public boolean onPreparePanel(int featureId, View view, Menu menu) {
         if (isMyMenu(featureId)) {
-            return !mIsFinishing;
+            shouldFinishOnMenuClose = true;
+//            menu.clear();
+//            getMenuInflater().inflate(R.menu.menu_main, menu);
+//            MenuItem menuLightOn = menu.findItem(R.id.action_turn_on_light);
+//            MenuItem menuLightOff = menu.findItem(R.id.action_turn_off_light);
+//            if (!menuLight) {
+//                menuLightOn.setVisible(false);
+//                menuLightOff.setVisible(true);
+//            } else {
+//                menuLightOn.setVisible(true);
+//                menuLightOff.setVisible(false);
+//            }
+            if (isMyMenu(featureId)) {
+                return !mIsFinishing;
+            }
         }
         return super.onPreparePanel(featureId, view, menu);
     }
@@ -131,6 +150,8 @@ public class MenuActivity extends Activity {
                     return true;
             }
         }
+        invalidateOptionsMenu();
+        getWindow().invalidatePanelMenu(WindowUtils.FEATURE_VOICE_COMMANDS);
         return super.onMenuItemSelected(featureId, item);
     }
 
@@ -157,90 +178,90 @@ public class MenuActivity extends Activity {
         mAttachedToWindow = false;
     }
 
-    @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        super.onOptionsMenuClosed(menu);
-        mOptionsMenuOpen = false;
-        if (shouldFinishOnMenuClose) {
-            LiveCardService.refreshLiveCard(this);
-            finish();
-        }
-    }
+//    @Override
+//    public void onOptionsMenuClosed(Menu menu) {
+//        super.onOptionsMenuClosed(menu);
+//        mOptionsMenuOpen = false;
+//        if (shouldFinishOnMenuClose) {
+//            LiveCardService.refreshLiveCard(this);
+//            finish();
+//        }
+//    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//
+//        return true;
+//    }
 
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        shouldFinishOnMenuClose = true;
-        boolean handled = true;
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case R.id.action_unlock_door:
-                try {
-                    handleUnlockDoor();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.action_lock_door:
-                try {
-                    handleLockDoor();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.action_turn_on_light:
-                try {
-                    handleTurnOnLight();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.action_turn_off_light:
-                try {
-                    handleTurnOffLight();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.action_set_thermostat:
-                handleSetThermostat();
-                break;
-            case R.id.action_turn_on_kettle:
-                try {
-                    handleTurnOnKettle();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.action_turn_off_kettle:
-                try {
-                    handleTurnOffKettle();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.action_stop:
-                handleStop();
-                break;
-            default:
-                handled = super.onOptionsItemSelected(item);
-        }
-
-        return handled;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//
+//        shouldFinishOnMenuClose = true;
+//        boolean handled = true;
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        switch (id) {
+//            case R.id.action_unlock_door:
+//                try {
+//                    handleUnlockDoor();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.action_lock_door:
+//                try {
+//                    handleLockDoor();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.action_turn_on_light:
+//                try {
+//                    handleTurnOnLight();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.action_turn_off_light:
+//                try {
+//                    handleTurnOffLight();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.action_set_thermostat:
+//                handleSetThermostat();
+//                break;
+//            case R.id.action_turn_on_kettle:
+//                try {
+//                    handleTurnOnKettle();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.action_turn_off_kettle:
+//                try {
+//                    handleTurnOffKettle();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                break;
+//            case R.id.action_stop:
+//                handleStop();
+//                break;
+//            default:
+//                handled = super.onOptionsItemSelected(item);
+//        }
+//        getWindow().invalidatePanelMenu(WindowUtils.FEATURE_VOICE_COMMANDS);
+//        return handled;
+//    }
 
     private void handleUnlockDoor() throws IOException {
         String retrievedData = null;
@@ -268,6 +289,7 @@ public class MenuActivity extends Activity {
         String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lighton").get();
+            menuLight = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -282,6 +304,7 @@ public class MenuActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        menuLight = false;
         Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
         LiveCardService.refreshLiveCard(this);
     }
