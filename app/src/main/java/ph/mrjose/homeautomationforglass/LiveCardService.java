@@ -1,5 +1,6 @@
 package ph.mrjose.homeautomationforglass;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -153,9 +154,7 @@ public class LiveCardService extends Service {
                         "\nKettle is currently " + kettleStatus
 
         );
-//        mLiveCardViews.setTextViewText(R.id.message, "The light is currently " + lightStatus + "\nNew line test");
         mLiveCardViews.setTextViewText(R.id.footer, "Home automation");
-
         mLiveCard.setViews(mLiveCardViews);
     }
 
