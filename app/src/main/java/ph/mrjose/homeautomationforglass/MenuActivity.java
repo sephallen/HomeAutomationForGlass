@@ -25,7 +25,7 @@ public class MenuActivity extends Activity {
     private boolean mIsFinishing;
     private boolean shouldFinishOnMenuClose;
     private boolean mPreparePanelCalled;
-    private boolean menuLight;
+//    private boolean menuLight;
 
     private static final int SPEECH_REQUEST = 0;
 
@@ -79,15 +79,15 @@ public class MenuActivity extends Activity {
         if (isMyMenu(featureId)) {
             shouldFinishOnMenuClose = true;
 
-            MenuItem menuLightOn = menu.findItem(R.id.action_turn_on_light);
-            MenuItem menuLightOff = menu.findItem(R.id.action_turn_off_light);
-            if (menuLight) {
-                menuLightOn.setVisible(false);
-                menuLightOff.setVisible(true);
-            } else {
-                menuLightOn.setVisible(true);
-                menuLightOff.setVisible(false);
-            }
+//            MenuItem menuLightOn = menu.findItem(R.id.action_turn_on_light);
+//            MenuItem menuLightOff = menu.findItem(R.id.action_turn_off_light);
+//            if (menuLight) {
+//                menuLightOn.setVisible(false);
+//                menuLightOff.setVisible(true);
+//            } else {
+//                menuLightOn.setVisible(true);
+//                menuLightOff.setVisible(false);
+//            }
             return !mIsFinishing;
         }
         return super.onPreparePanel(featureId, view, menu);
@@ -130,28 +130,28 @@ public class MenuActivity extends Activity {
                 case R.id.action_set_thermostat:
                     handleSetThermostat();
                     break;
-                case R.id.action_turn_on_kettle:
-                    try {
-                        handleTurnOnKettle();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case R.id.action_turn_off_kettle:
-                    try {
-                        handleTurnOffKettle();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
+//                case R.id.action_turn_on_kettle:
+//                    try {
+//                        handleTurnOnKettle();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    break;
+//                case R.id.action_turn_off_kettle:
+//                    try {
+//                        handleTurnOffKettle();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    break;
                 case R.id.action_stop:
                     handleStop();
                     break;
             }
         }
 
-        invalidateOptionsMenu();
-        getWindow().invalidatePanelMenu(WindowUtils.FEATURE_VOICE_COMMANDS);
+//        invalidateOptionsMenu();
+//        getWindow().invalidatePanelMenu(WindowUtils.FEATURE_VOICE_COMMANDS);
         return super.onMenuItemSelected(featureId, item);
     }
 
@@ -204,7 +204,7 @@ public class MenuActivity extends Activity {
         String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lighton").get();
-            menuLight = true;
+//            menuLight = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -217,7 +217,7 @@ public class MenuActivity extends Activity {
         String retrievedData = null;
         try {
             retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/lightoff").get();
-            menuLight = false;
+//            menuLight = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -259,27 +259,27 @@ public class MenuActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void handleTurnOnKettle() throws IOException {
-        String retrievedData = null;
-        try {
-            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/relayon").get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
-        LiveCardService.refreshLiveCard(this);
-    }
-
-    private void handleTurnOffKettle() throws IOException {
-        String retrievedData = null;
-        try {
-            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/relayoff").get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
-        LiveCardService.refreshLiveCard(this);
-    }
+//    private void handleTurnOnKettle() throws IOException {
+//        String retrievedData = null;
+//        try {
+//            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/relayon").get();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
+//        LiveCardService.refreshLiveCard(this);
+//    }
+//
+//    private void handleTurnOffKettle() throws IOException {
+//        String retrievedData = null;
+//        try {
+//            retrievedData = new RetrieveData().execute(ServerUrl.serverUrl + "/relayoff").get();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Toast.makeText(this, retrievedData, Toast.LENGTH_LONG).show();
+//        LiveCardService.refreshLiveCard(this);
+//    }
 
     private void handleStop() {
         mHandler.post(new Runnable() {
