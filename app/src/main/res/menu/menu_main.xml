@@ -4,31 +4,31 @@
     <item
         android:id="@+id/action_unlock_door"
         android:title="@string/action_unlock_door"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_lock_open"
         android:visible="true" />
 
     <item
         android:id="@+id/action_lock_door"
         android:title="@string/action_lock_door"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_lock_outline"
         android:visible="true" />
 
     <item
         android:id="@+id/action_turn_on_light"
         android:title="@string/action_turn_on_light"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_wb_incandescent"
         android:visible="true" />
 
     <item
         android:id="@+id/action_turn_off_light"
         android:title="@string/action_turn_off_light"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_wb_incandescent_off"
         android:visible="true" />
 
     <item
         android:id="@+id/action_set_thermostat"
         android:title="@string/action_set_thermostat"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_whatshot"
         android:visible="true" />
 
     <item
@@ -46,5 +46,5 @@
     <item
         android:id="@+id/action_stop"
         android:title="@string/action_stop"
-        android:icon="@drawable/ic_launcher" />
+        android:icon="@drawable/ic_stop" />
 </menu>
